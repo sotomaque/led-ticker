@@ -1,19 +1,6 @@
 iexfinance
 ==========
 
-.. image:: https://travis-ci.org/addisonlynch/iexfinance.svg?branch=master
-    :target: https://travis-ci.org/addisonlynch/iexfinance
-
-.. image:: https://codecov.io/gh/addisonlynch/iexfinance/branch/master/graphs/badge.svg?branch=master
-	:target: https://codecov.io/gh/addisonlynch/iexfinance
-
-.. image:: https://badge.fury.io/py/iexfinance.svg
-    :target: https://badge.fury.io/py/iexfinance
-
-.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :target: https://opensource.org/licenses/Apache-2.0
-
-
 Python SDK for `IEX Cloud <https://iexcloud.io>`__ and the legacy
 `Investors Exchange (IEX) <https://iextrading.com/>`__
 `Developer API <https://iextrading.com/developer/>`__. Architecture mirrors

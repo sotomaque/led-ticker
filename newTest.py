@@ -3,25 +3,10 @@ New version working with iexfinance v0.4.0
 """
 
 from iexfinance.stocks import Stock
+from securities import *
 
 
 watchList = ['AAPL', 'AMZN', 'ACB', 'AMD', 'CRON', 'CVX', 'CSCO', 'IBM', 'KO', 'MJ', 'MRK', 'MSFT', 'PFE', 'PG', 'QCOM', 'ROKU', 'SO', 'SQ', 'TWTR', 'TLRY', 'TSLA', 'VZ', 'XOM']
-
-
-class security:
-
-	def __init__(self, name, price, openn, high, low, closee, dayChange):
-		self.name = name
-		self.price = price
-		self.open = openn
-		self.high = high
-		self.low = low
-		self.closee = closee
-		self.dayChange = dayChange
-
-	def __str__(self):
-		return(str(self.name) + ' last price: ' + str(self.price) + ' open: ' + str(self.open) + ' high: ' + str(self.high) + ' low: ' + str(self.low) + ' close: '+ str(self.closee) + ' net change: ' + str(self.dayChange))
-
 
 def main():
 
@@ -55,7 +40,7 @@ def main():
 		#print(f'Stock: {stock}\n  Price: {price}\n  Open: {Open}\n  Close: {close}\n  High: {high}\n  Low: {low}\n')
 
 		#Store this stock information in a security object
-		tempSec = security(stock, price, Open, high, low, close, netChange)
+		tempSec = Security(stock, price, Open, high, low, close, netChange)
 		securitiesList.append(tempSec)
 
 	for i in range(len(securitiesList)):

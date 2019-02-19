@@ -52,9 +52,11 @@ def main():
 		change = close - Open
 		netChange = '{:+.2f}'.format(change)
 
+		#print(f'Stock: {stock}\n  Price: {price}\n  Open: {Open}\n  Close: {close}\n  High: {high}\n  Low: {low}\n')
+
 		#Store this stock information in a security object
 		tempSec = security(stock, price, Open, high, low, close, netChange)
-		securitiesList.append(securitiesList)
+		securitiesList.append(tempSec)
 
 	for i in range(len(securitiesList)):
 		print(securitiesList[i])

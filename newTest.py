@@ -6,7 +6,29 @@ from iexfinance.stocks import Stock
 from securities import *
 
 
-watchList = ['AAPL', 'AMZN', 'ACB', 'AMD', 'CRON', 'CVX', 'CSCO', 'IBM', 'KO', 'MJ', 'MRK', 'MSFT', 'PFE', 'PG', 'QCOM', 'ROKU', 'SO', 'SQ', 'TWTR', 'TLRY', 'TSLA', 'VZ', 'XOM']
+watchList = ['AAPL',
+			 'AMZN',
+			 'ACB',
+			 'AMD',
+			 'CRON',
+			 'CVX',
+			 'CSCO',
+			 'IBM',
+			 'KO',
+			 'MJ',
+			 'MRK',
+			 'MSFT',
+			 'PFE',
+			 'PG',
+			 'QCOM',
+			 'ROKU',
+			 'SO',
+			 'SQ',
+			 'TWTR',
+			 'TLRY',
+			 'TSLA',
+			 'VZ',
+			 'XOM']
 
 def main():
 

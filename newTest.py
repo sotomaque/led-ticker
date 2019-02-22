@@ -31,9 +31,9 @@ watchList = ['AAPL',
 			 'XOM']
 
 #Retrieve price information for a single stock
-def retrieveSingleStockInfo(securitiesList, stock):
+def retrieveSingleStockInfo(securitiesList, stockName):
 
-	stockObj = Stock(stock)
+	stockObj = Stock(stockName)
 	priceInfo = stockObj.get_price()
 	ohlcInfo = stockObj.get_ohlc()
 
@@ -50,11 +50,11 @@ def retrieveSingleStockInfo(securitiesList, stock):
 	#print(f'Stock: {stock}\n  Price: {price}\n  Open: {Open}\n  Close: {close}\n  High: {high}\n  Low: {low}\n')
 
 	#Store this stock information in a security object
-	tempSec = Security(stock, price, Open, high, low, close, netChange)
+	tempSec = Security(stockName, price, Open, high, low, close, netChange)
 	securitiesList.append(tempSec)
 
 #Get price information for every stock in our watchlist
-def retrieveStockListInfo(securitiesList):
+def retrieveBatchStockInfo(securitiesList, batchList):
 
 	"""
 	Pulling all OHLC information for our entire stock watch list in one request.
@@ -63,11 +63,11 @@ def retrieveStockListInfo(securitiesList):
 	
 	{'AAPL': {'open': {'price': 169.55, 'time': 1550586600765}, 'close': {'price': 170.93, 'time': 1550610000472}, 'high': 171.44, 'low': 169.49}, 'AMZN': {'open': {'price': 1602, 'time': 1550586601038}, 'close': {'price': 1627.58, 'time': 1550610000375}, 'high': 1634, 'low': 1600.56}
 	"""
-	batch = Stock(watchList)
+	batch = Stock(batchList)
 	priceInfo = batch.get_price()
 	ohlcInfo = batch.get_ohlc()
 
-	for stock in watchList:
+	for stock in batchList:
 
 		#Storing all information from each stock's json info
 		price = priceInfo[stock]
@@ -86,6 +86,7 @@ def retrieveStockListInfo(securitiesList):
 		tempSec = Security(stock, price, Open, high, low, close, netChange)
 		securitiesList.append(tempSec)
 
+#Get user input for supplemental stock information if necessary
 def getAdditionalStockInfo(securitiesList):
 
 	keepAsking = True
@@ -98,18 +99,32 @@ def getAdditionalStockInfo(securitiesList):
 			print("Please enter a valid option.")
 		else:
 			if ask == 'n':
-				return
+				keepAsking = False
 			elif ask == 'y':
 				getStock = input("Enter the stock: ")
+
+				#Just testing to see if the stock is a valid index in the iex db
 				try:
-					retrieveSingleStockInfo(securitiesList, getStock.upper())
+					test = Stock(getStock).get_price()
 				except Exception as e:
 					print("Error retrieving that stock information.")
+					continue
+
+				tempStockList.append(getStock.upper())
+				print(tempStockList)
+
+	if len(tempStockList) > 1:
+		retrieveBatchStockInfo(securitiesList, tempStockList)
+	else:
+		retrieveSingleStockInfo(securitiesList, *tempStockList)
 				
 
 def main(securitiesList):
 
-	retrieveStockListInfo(securitiesList)
+	#Initial watchlist stock information is stored.
+	retrieveBatchStockInfo(securitiesList, watchList)
+
+	#Get additional stock information if necessary.
 	getAdditionalStockInfo(securitiesList)
 
 if __name__ == '__main__':

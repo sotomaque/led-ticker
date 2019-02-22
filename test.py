@@ -1,10 +1,13 @@
 from iex import Stock
 
 
-watchList = ['AAPL', 'AMZN', 'ACB', 'AMD', 'CRON', 'CVX', 'CSCO', 'IBM', 'KO', 'MJ', 'MRK', 'MSFT', 'PFE', 'PG', 'QCOM', 'ROKU', 'SO', 'SQ', 'TWTR', 'TLRY', 'TSLA', 'VZ', 'XOM']
+watchList = ['AAPL']
+
+
 
 
 class security:
+	
 	def __init__(self, name, price, openn, high, low, closee, dayChange):
 		self.name = name
 		self.price = price
@@ -13,11 +16,14 @@ class security:
 		self.low = low
 		self.closee = closee
 		self.dayChange = dayChange
+
+
 	def __str__(self):
-		return(str(self.name) + ' last price: ' + str(self.price) + ' open: ' + str(self.open) + ' high: ' + str(self.high) + ' low: ' + str(self.low) + ' close: '+ str(self.closee) + ' net change: ' + str(self.dayChange))
+		percentChange = float(self.dayChange) / float(self.open) * 100
+		percentChange = '{:+.3f}'.format(percentChange)
+		return(str(self.name) + '\n last price: ' + str(self.price) + '\n open: ' + str(self.open) + '\n high: ' + str(self.high) + '\n low: ' + str(self.low) + '\n close: '+ str(self.closee) + '\n net change: ' + str(self.dayChange) + '; ' + str(percentChange) + '%')
 
-
-def main():
+def watchlistQuotes(watchList):
 	#init empty security objects
 	for i in watchList:
 		i = security(str(i), 0, 0, 0, 0, 0, 0)
@@ -32,7 +38,7 @@ def main():
 		#get open
 		ohlc = Stock(i).ohlc()
 		openn = ohlc['open']['price']
-		#get high 🚀
+		#get high 
 		high = ohlc['high']
 		#get low
 		low = ohlc['low']
@@ -49,6 +55,37 @@ def main():
 	#loop though list of security object
 	for i in range(0,len(stocks)):
 		print(stocks[i - 1])
+
+def getQuotes():
+	
+	x = input('If you would like additional quotes, enter a symbol at any time: ')
+	x = x.upper()
+	#get price
+	price = Stock(x).price()
+	#get open
+	ohlc = Stock(x).ohlc()
+	openn = ohlc['open']['price']
+	#get high 
+	high = ohlc['high']
+	#get low
+	low = ohlc['low']
+	#get close
+	closee = ohlc['close']['price']
+	#calculate net change
+	change = closee - openn
+	netChange = '{:+.2f}'.format(change)
+
+	#set 
+	y = security(str(x), price, openn, high, low, closee, netChange)
+	print('\n')
+	print(y)
+
+
+def main():
+	watchlistQuotes(watchList)
+	print('\n')
+	getQuotes()
+	
 
 if __name__ == '__main__':
 	main()

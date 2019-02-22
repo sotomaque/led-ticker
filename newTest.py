@@ -111,7 +111,6 @@ def getAdditionalStockInfo(securitiesList):
 					continue
 
 				tempStockList.append(getStock.upper())
-				print(tempStockList)
 
 	if len(tempStockList) > 1:
 		retrieveBatchStockInfo(securitiesList, tempStockList)

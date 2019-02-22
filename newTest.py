@@ -30,11 +30,32 @@ watchList = ['AAPL',
 			 'VZ',
 			 'XOM']
 
-def main():
+#Retrieve price information for a single stock
+def retrieveSingleStockInfo(securitiesList, stock):
 
-	#List to hold all security objects
-	securitiesList = []
-	
+	stockObj = Stock(stock)
+	priceInfo = stockObj.get_price()
+	ohlcInfo = stockObj.get_ohlc()
+
+	price = priceInfo
+	Open = ohlcInfo['open']['price']
+	close = ohlcInfo['close']['price']
+	high = ohlcInfo['high']
+	low = ohlcInfo['low']
+
+	#Calculate net stock change
+	change = close - Open
+	netChange = '{:+.2f}'.format(change)
+
+	#print(f'Stock: {stock}\n  Price: {price}\n  Open: {Open}\n  Close: {close}\n  High: {high}\n  Low: {low}\n')
+
+	#Store this stock information in a security object
+	tempSec = Security(stock, price, Open, high, low, close, netChange)
+	securitiesList.append(tempSec)
+
+#Get price information for every stock in our watchlist
+def retrieveStockListInfo(securitiesList):
+
 	"""
 	Pulling all OHLC information for our entire stock watch list in one request.
 	Returns a json blob (example below) with the main key being each stock in our watch list.
@@ -55,7 +76,7 @@ def main():
 		high = ohlcInfo[stock]['high']
 		low = ohlcInfo[stock]['low']
 
-		#Calculate net change
+		#Calculate net stock change
 		change = close - Open
 		netChange = '{:+.2f}'.format(change)
 
@@ -65,8 +86,38 @@ def main():
 		tempSec = Security(stock, price, Open, high, low, close, netChange)
 		securitiesList.append(tempSec)
 
-	for i in range(len(securitiesList)):
-		print(securitiesList[i])
+def getAdditionalStockInfo(securitiesList):
+
+	keepAsking = True
+	tempStockList = []
+
+	while keepAsking:
+		ask = input("Would you like to look at additional stocks? (y/n) ")
+
+		if ask not in ['y', 'n']:
+			print("Please enter a valid option.")
+		else:
+			if ask == 'n':
+				return
+			elif ask == 'y':
+				getStock = input("Enter the stock: ")
+				try:
+					retrieveSingleStockInfo(securitiesList, getStock.upper())
+				except Exception as e:
+					print("Error retrieving that stock information.")
+				
+
+def main(securitiesList):
+
+	retrieveStockListInfo(securitiesList)
+	getAdditionalStockInfo(securitiesList)
 
 if __name__ == '__main__':
-	main()
+
+	#List to hold all security objects
+	securitiesList = []
+
+	main(securitiesList)
+
+	for i in range(len(securitiesList)):
+		print(securitiesList[i])

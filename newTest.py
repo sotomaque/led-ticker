@@ -99,7 +99,7 @@ def getAdditionalStockInfo(securitiesList):
 			print("Please enter a valid option.")
 		else:
 			if ask == 'n':
-				keepAsking = False
+				return
 			elif ask == 'y':
 				getStock = input("Enter the stock: ")
 

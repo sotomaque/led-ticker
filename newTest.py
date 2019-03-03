@@ -99,7 +99,7 @@ def getAdditionalStockInfo(securitiesList):
 			print("Please enter a valid option.")
 		else:
 			if ask == 'n':
-				return
+				keepAsking = False
 			elif ask == 'y':
 				getStock = input("Enter the stock: ")
 
@@ -111,8 +111,9 @@ def getAdditionalStockInfo(securitiesList):
 					continue
 
 				tempStockList.append(getStock.upper())
-
-	if len(tempStockList) > 1:
+	if len(tempStockList) == 0:
+		return
+	elif len(tempStockList) > 1:
 		retrieveBatchStockInfo(securitiesList, tempStockList)
 	else:
 		retrieveSingleStockInfo(securitiesList, *tempStockList)
